@@ -1,5 +1,5 @@
 class Tuple {
-    private final double x, y, z, w;
+    private double x, y, z, w;
 
     public Tuple(double x, double y, double z, double w) {
         this.x = x;
@@ -81,5 +81,37 @@ class Tuple {
 
     public static double magnitude(Tuple t) {
         return Math.sqrt(t.getX() * t.getX() + t.getY() * t.getY() + t.getZ() * t.getZ() + t.getW() * t.getW());
+    }
+
+    public static Tuple normalize(Tuple t) {
+        double magnitude = magnitude(t);
+        return new Tuple(t.getX() / magnitude, t.getY() / magnitude, t.getZ() / magnitude, t.getW() / magnitude);
+    }
+
+    public static double dot(Tuple a, Tuple b) {
+        if (a.isPoint() || b.isPoint()) {
+            throw new IllegalArgumentException("Dot product is only defined for vectors");
+        }
+        return a.getX() * b.getX() +
+                a.getY() * b.getY() +
+                a.getZ() * b.getZ() +
+                a.getW() * b.getW();
+    }
+
+    public static Tuple cross(Tuple a, Tuple b) {
+        if (a.isPoint() || b.isPoint()) {
+            throw new IllegalArgumentException("Cross product is only defined for vectors");
+        }
+
+        double x = a.getY() * b.getZ() - a.getZ() * b.getY();
+        double y = a.getZ() * b.getX() - a.getX() * b.getZ();
+        double z = a.getX() * b.getY() - a.getY() * b.getX();
+
+        return Tuple.vector(x, y, z);
+    }
+
+    @Override
+    public String toString() {
+        return "Tuple(" + x + ", " + y + ", " + z + ", " + w + ")";
     }
 }

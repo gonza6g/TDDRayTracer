@@ -212,4 +212,62 @@ public class TupleTest {
         double magnitude = Tuple.magnitude(v);
         assertEquals(Math.sqrt(14), magnitude, 0.00001);
     }
+
+    @Test
+    public void normalizingVectorX() {
+        Tuple v = Tuple.vector(4, 0, 0);
+        Tuple normalized = Tuple.normalize(v);
+        assertEquals(1, normalized.getX(), 0.00001);
+        assertEquals(0, normalized.getY(), 0.00001);
+        assertEquals(0, normalized.getZ(), 0.00001);
+    }
+
+    @Test
+    public void normalizingVectorXYZ() {
+        Tuple v = Tuple.vector(1, 2, 3);
+        Tuple normalized = Tuple.normalize(v);
+        assertEquals(0.26726, normalized.getX(), 0.00001);
+        assertEquals(0.53452, normalized.getY(), 0.00001);
+        assertEquals(0.80178, normalized.getZ(), 0.00001);
+    }
+
+    @Test
+    public void magnitudeOfNormalizedVector() {
+        Tuple v = Tuple.vector(1, 2, 3);
+        Tuple normalized = Tuple.normalize(v);
+        assertEquals(1.0, Tuple.magnitude(normalized), 0.00001);
+    }
+
+    @Test
+    public void dotProductOfTwoTuples() {
+        Tuple a = Tuple.vector(1, 2, 3);
+        Tuple b = Tuple.vector(2, 3, 4);
+        double dotProduct = Tuple.dot(a, b);
+        assertEquals(20.0, dotProduct, 0.00001);
+    }
+
+    @Test
+    public void dotProductThrowsExceptionForPoints() {
+        Tuple a = Tuple.vector(1, 2, 3);
+        Tuple b = Tuple.point(2, 3, 4);
+        assertThrows(IllegalArgumentException.class, () -> Tuple.dot(a, b));
+    }
+
+    @Test
+    public void crossProductOfTwoVectors() {
+        Tuple a = Tuple.vector(1, 2, 3);
+        Tuple b = Tuple.vector(2, 3, 4);
+
+        Tuple crossAB = Tuple.cross(a, b);
+        assertEquals(-1, crossAB.getX(), 0.00001);
+        assertEquals(2, crossAB.getY(), 0.00001);
+        assertEquals(-1, crossAB.getZ(), 0.00001);
+        assertEquals(0, crossAB.getW(), 0.00001);
+
+        Tuple crossBA = Tuple.cross(b, a);
+        assertEquals(1, crossBA.getX(), 0.00001);
+        assertEquals(-2, crossBA.getY(), 0.00001);
+        assertEquals(1, crossBA.getZ(), 0.00001);
+        assertEquals(0, crossBA.getW(), 0.00001);
+    }
 }
