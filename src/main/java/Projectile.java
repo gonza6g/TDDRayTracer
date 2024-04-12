@@ -7,11 +7,13 @@ public class Projectile {
         this.velocity = velocity;
     }
 
-    public Tuple getPosition() {
-        return position;
-    }
+    public Tuple getPosition() { return position; }
 
     public Tuple getVelocity() {
         return velocity;
     }
+
+    public void setPosition(Tuple position) { this.position = position; }
+
+    public void setVelocity(Tuple velocity) { this.velocity = velocity; }
 }

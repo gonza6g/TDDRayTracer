@@ -75,17 +75,17 @@ class Tuple {
         return new Tuple(t.getX() * scalar, t.getY() * scalar, t.getZ() * scalar, t.getW() * scalar);
     }
 
+    public static Tuple normalize(Tuple t) {
+        double magnitude = magnitude(t);
+        return new Tuple(t.getX() / magnitude, t.getY() / magnitude, t.getZ() / magnitude, t.getW() / magnitude);
+    }
+
     public static Tuple divide(Tuple t, double scalar) {
         return new Tuple(t.getX() / scalar, t.getY() / scalar, t.getZ() / scalar, t.getW() / scalar);
     }
 
     public static double magnitude(Tuple t) {
         return Math.sqrt(t.getX() * t.getX() + t.getY() * t.getY() + t.getZ() * t.getZ() + t.getW() * t.getW());
-    }
-
-    public static Tuple normalize(Tuple t) {
-        double magnitude = magnitude(t);
-        return new Tuple(t.getX() / magnitude, t.getY() / magnitude, t.getZ() / magnitude, t.getW() / magnitude);
     }
 
     public static double dot(Tuple a, Tuple b) {

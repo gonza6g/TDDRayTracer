@@ -14,4 +14,8 @@ public class Environment {
     public Tuple getWind() {
         return wind;
     }
+
+    public Tuple getAcceleration() {
+        return Tuple.add(this.gravity, this.wind);
+    }
 }
