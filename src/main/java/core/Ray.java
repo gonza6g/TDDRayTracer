@@ -2,9 +2,6 @@ package core;
 
 import shape.Shape;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Ray {
     private Tuple origin;
     private Tuple direction;
@@ -25,10 +22,14 @@ public class Ray {
         return Tuple.add(ray.getOrigin(), scaledDirection);
     }
 
-    public Intersections intersect(Shape s) {
-        Tuple sphereToRay = Tuple.subtract(origin, Tuple.point(0, 0, 0));
-        double a = Tuple.dot(direction, direction);
-        double b = 2 * Tuple.dot(direction, sphereToRay);
+    public Intersections intersect(Shape s, Matrix transform) {
+        // Transform the ray using the inverse of the shape's transformation matrix
+        Matrix inverseTransform = transform.inverse();
+        Ray transformedRay = transform(inverseTransform);
+        Tuple sphereToRay = Tuple.subtract(transformedRay.getOrigin(), Tuple.point(0, 0, 0));
+
+        double a = Tuple.dot(transformedRay.getDirection(), transformedRay.getDirection());
+        double b = 2 * Tuple.dot(transformedRay.getDirection(), sphereToRay);
         double c = Tuple.dot(sphereToRay, sphereToRay) - 1;
 
         double discriminant = b * b - 4 * a * c;

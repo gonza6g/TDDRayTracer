@@ -1,8 +1,6 @@
 package shape;
 
-import core.Intersections;
-import core.Tuple;
-import core.Ray;
+import core.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -12,7 +10,7 @@ public class SphereTest {
         Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s);
+        Intersections xs = r.intersect(s, s.getTransform());
 
         Assertions.assertEquals(2, xs.size());
         Assertions.assertEquals(4.0, xs.get(0).getT(), 0.0001);
@@ -27,7 +25,7 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s);
+        Intersections xs = r.intersect(s, s.getTransform());
 
         Assertions.assertEquals(2, xs.size());
         Assertions.assertTrue(Double.compare(5.0, xs.get(0).getT()) == 0);
@@ -42,7 +40,7 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s);
+        Intersections xs = r.intersect(s, s.getTransform());
 
         Assertions.assertEquals(0, xs.size());
     }
@@ -55,7 +53,7 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s);
+        Intersections xs = r.intersect(s, s.getTransform());
 
         Assertions.assertEquals(2, xs.size());
         Assertions.assertEquals(-1.0, xs.get(0).getT(), 0.00001);
@@ -70,10 +68,25 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s);
+        Intersections xs = r.intersect(s, s.getTransform());
 
         Assertions.assertEquals(2, xs.size());
         Assertions.assertEquals(-6.0, xs.get(0).getT(), 0.00001);
         Assertions.assertEquals(-4.0, xs.get(1).getT(), 0.00001);
+    }
+
+    @Test
+    public void testDefaultTransformation() {
+        Sphere s = new Sphere();
+        Assertions.assertEquals(Matrix.identity(4), s.getTransform());
+    }
+
+    @Test
+    public void testChangingTransformation() {
+        Sphere s = new Sphere();
+        Matrix t = MatrixTransform.translation(2, 3, 4);
+        s.setTransform(t);
+
+        Assertions.assertEquals(t, s.getTransform());
     }
 }

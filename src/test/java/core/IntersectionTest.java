@@ -34,7 +34,7 @@ public class IntersectionTest {
     void intersectSetsObject() {
         Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         Sphere s = new Sphere();
-        Intersections i = r.intersect(s);
+        Intersections i = r.intersect(s, s.getTransform());
 
         assertEquals(2, i.size());
         assertEquals(s, i.get(0).getObject());
@@ -91,5 +91,25 @@ public class IntersectionTest {
         xs.add(i4);
 
         assertEquals(i4, xs.hit());
+    }
+
+    @Test
+    public void testIntersectScaledSphere() {
+        Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
+        Sphere s = new Sphere();
+        s.setTransform(MatrixTransform.scaling(2, 2, 2));
+        Intersections xs = r.intersect(s, s.getTransform());
+        assertEquals(2, xs.size());
+        assertEquals(3, xs.get(0).getT(), 0.00001);
+        assertEquals(7, xs.get(1).getT(), 0.00001);
+    }
+
+    @Test
+    public void testIntersectTranslatedSphere() {
+        Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
+        Sphere s = new Sphere();
+        s.setTransform(MatrixTransform.translation(5, 0, 0));
+        Intersections xs = r.intersect(s, s.getTransform());
+        assertEquals(0, xs.size());
     }
 }
