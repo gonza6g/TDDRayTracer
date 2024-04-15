@@ -10,6 +10,18 @@ public class Tuple {
         this.w = w;
     }
 
+    public static Tuple reflect(Tuple in, Tuple normal) {
+        double dotProduct = dot(in, normal) * 2;
+        Tuple reflection = subtract(in, multiply(normal, dotProduct));
+
+        // Round the components to a certain number of decimal places
+        double x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
+        double y = Math.round(reflection.getY() * 1000000.0) / 1000000.0;
+        double z = Math.round(reflection.getZ() * 1000000.0) / 1000000.0;
+
+        return new Tuple(x, y, z, 0.0); // Assuming the w component is always 0
+    }
+
     public double getX() {
         return x;
     }

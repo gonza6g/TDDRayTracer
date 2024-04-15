@@ -4,6 +4,7 @@ import core.Tuple;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TupleTest {
 
@@ -272,5 +273,25 @@ public class TupleTest {
         assertEquals(-2, crossBA.getY(), 0.00001);
         assertEquals(1, crossBA.getZ(), 0.00001);
         assertEquals(0, crossBA.getW(), 0.00001);
+    }
+
+    @Test
+    public void testReflectAt45Degrees() {
+        Tuple v = Tuple.vector(1, -1, 0);
+        Tuple n = Tuple.vector(0, 1, 0);
+        Tuple r = Tuple.reflect(v, n);
+        assertEquals(1.0, r.getX(), 0.00001);
+        assertEquals(1.0, r.getY(), 0.00001);
+        assertEquals(0.0, r.getZ(), 0.00001);
+    }
+
+    @Test
+    public void testReflectAtSlantedSurface() {
+        Tuple v = Tuple.vector(0, -1, 0);
+        Tuple n = Tuple.vector(Math.sqrt(2) / 2, Math.sqrt(2) / 2, 0);
+        Tuple r = Tuple.reflect(v, n);
+        assertEquals(1.0, r.getX(), 0.00001);
+        assertEquals(0.0, r.getY(), 0.00001);
+        assertEquals(0.0, r.getZ(), 0.00001);
     }
 }

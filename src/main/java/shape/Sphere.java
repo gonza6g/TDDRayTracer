@@ -1,15 +1,20 @@
 package shape;
 
+import core.Material;
 import core.Matrix;
 import core.MatrixTransform;
+import core.Tuple;
 
 public class Sphere implements Shape {
     private static int lastAssignedId = 0;
     private final int id;
     private Matrix transform;
+    private Material material;
+
 
     public Sphere() {
         transform = Matrix.identity(4);
+        this.material = new Material();
         this.id = ++lastAssignedId;
     }
 
@@ -23,5 +28,13 @@ public class Sphere implements Shape {
 
     public void setTransform(Matrix transform) {
         this.transform = transform;
+    }
+
+    public Material getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(Material material) {
+        this.material = material;
     }
 }
