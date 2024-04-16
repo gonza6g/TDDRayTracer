@@ -54,4 +54,13 @@ public class Color {
     public static final Color RED = new Color(1, 0, 0);
     public static final Color GREEN = new Color(0, 1, 0);
     public static final Color BLUE = new Color(0, 0, 1);
+
+    @Override
+    public String toString() {
+        return "Color{" +
+                "red=" + red +
+                ", green=" + green +
+                ", blue=" + blue +
+                '}';
+    }
 }

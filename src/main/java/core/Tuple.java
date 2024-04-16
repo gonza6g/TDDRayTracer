@@ -11,15 +11,42 @@ public class Tuple {
     }
 
     public static Tuple reflect(Tuple in, Tuple normal) {
-        double dotProduct = dot(in, normal) * 2;
-        Tuple reflection = subtract(in, multiply(normal, dotProduct));
-
-        // Round the components to a certain number of decimal places
-        double x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
-        double y = Math.round(reflection.getY() * 1000000.0) / 1000000.0;
-        double z = Math.round(reflection.getZ() * 1000000.0) / 1000000.0;
-
-        return new Tuple(x, y, z, 0.0); // Assuming the w component is always 0
+        if (in.isVector() && normal.isVector()) {
+            // Round the x, y, and z components to 0 if they are very close to 0
+            double x = Math.abs(in.x) < 1e-9 ? 0.0 : in.x;
+            double y = Math.abs(in.y) < 1e-9 ? 0.0 : in.y;
+            double z = Math.abs(in.z) < 1e-9 ? 0.0 : in.z;
+            Tuple inVector = new Tuple(x, y, z, 0.0);
+            double dotProduct = Tuple.dot(inVector, normal) * 2;
+            Tuple reflection = Tuple.subtract(inVector, Tuple.multiply(normal, dotProduct));
+            // Round the components to a certain number of decimal places
+            x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
+            y = Math.round(reflection.getY() * 1000000.0) / 1000000.0;
+            z = Math.round(reflection.getZ() * 1000000.0) / 1000000.0;
+            return new Tuple(x, y, z, 0.0); // Assuming the w component is always 0
+        } else if (in.isPoint() && normal.isVector()) {
+            Tuple inVector = Tuple.vector(in.x, in.y, in.z);
+            double dotProduct = Tuple.dot(inVector, normal) * 2;
+            Tuple reflection = Tuple.subtract(inVector, Tuple.multiply(normal, dotProduct));
+            // Round the components to a certain number of decimal places
+            double x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
+            double y = Math.round(reflection.getY() * 1000000.0) / 1000000.0;
+            double z = Math.round(reflection.getZ() * 1000000.0) / 1000000.0;
+            return new Tuple(x, y, z, 0.0); // Assuming the w component is always 0
+        } else if (in.w == 0.0 || in.w == 1.0) {
+            // The in tuple has a valid w component (0 for vector, 1 for point)
+            double dotProduct = Tuple.dot(in, normal) * 2;
+            Tuple reflection = Tuple.subtract(in, Tuple.multiply(normal, dotProduct));
+            // Round the components to a certain number of decimal places
+            double x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
+            double y = Math.round(reflection.getY() * 1000000.0) / 1000000.0;
+            double z = Math.round(reflection.getZ() * 1000000.0) / 1000000.0;
+            return new Tuple(x, y, z, in.w); // Preserve the original w component
+        } else {
+            System.out.println("in = " + in);
+            System.out.println("normal = " + normal);
+            throw new IllegalArgumentException("Invalid Tuple types for reflection.");
+        }
     }
 
     public double getX() {
@@ -75,14 +102,28 @@ public class Tuple {
     }
 
     public static Tuple subtract(Tuple t1, Tuple t2) {
-        if (t1.isVector() && t2.isPoint()) {
-            throw new IllegalArgumentException("Cannot subtract a point from a vector");
+        if (t1.isPoint() && t2.isVector()) {
+            return new Tuple(t1.x - t2.x, t1.y - t2.y, t1.z - t2.z, 1.0);
+        } else if (t1.isPoint() && t2.isPoint()) {
+            return new Tuple(t1.x - t2.x, t1.y - t2.y, t1.z - t2.z, 0.0);
+        } else if (t1.isVector() && t2.isVector()) {
+            return new Tuple(t1.x - t2.x, t1.y - t2.y, t1.z - t2.z, 0.0);
+        } else if (t1.isVector() && t2.isPoint()) {
+            return new Tuple(t1.x - t2.x, t1.y - t2.y, t1.z - t2.z, 0.0);
+        } else {
+            throw new IllegalArgumentException("Invalid Tuple types for subtraction.");
         }
-        return Tuple.add(t1, Tuple.negate(t2));
     }
 
     public static Tuple negate(Tuple t) {
-        return new Tuple(-t.getX(), -t.getY(), -t.getZ(), t.getW() == 0 ? 0 : -t.getW());
+        if (t.isVector()) {
+            double x = t.x != 0.0 ? -t.x : 0.0;
+            double y = t.y != 0.0 ? -t.y : 0.0;
+            double z = t.z != 0.0 ? -t.z : 0.0;
+            return new Tuple(x, y, z, 0.0);
+        } else {
+            return new Tuple(-t.x, -t.y, -t.z, 1.0);
+        }
     }
 
     public static Tuple multiply(Tuple t, double scalar) {
@@ -91,7 +132,11 @@ public class Tuple {
 
     public static Tuple normalize(Tuple t) {
         double magnitude = magnitude(t);
-        return new Tuple(t.getX() / magnitude, t.getY() / magnitude, t.getZ() / magnitude, t.getW() / magnitude);
+        if (t.isVector()) {
+            return new Tuple(t.x / magnitude, t.y / magnitude, t.z / magnitude, 0.0);
+        } else {
+            return new Tuple(t.x / magnitude, t.y / magnitude, t.z / magnitude, t.w);
+        }
     }
 
     public static Tuple divide(Tuple t, double scalar) {
@@ -102,14 +147,16 @@ public class Tuple {
         return Math.sqrt(t.getX() * t.getX() + t.getY() * t.getY() + t.getZ() * t.getZ() + t.getW() * t.getW());
     }
 
-    public static double dot(Tuple a, Tuple b) {
-        if (a.isPoint() || b.isPoint()) {
-            throw new IllegalArgumentException("Dot product is only defined for vectors");
+    public static double dot(Tuple t1, Tuple t2) {
+        if (t1.isVector() && t2.isVector()) {
+            return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z;
+        } else if (t1.isPoint() && t2.isVector()) {
+            return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z;
+        } else if (t1.isVector() && t2.isPoint()) {
+            return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z;
+        } else {
+            throw new IllegalArgumentException("Dot product is only defined for vectors.");
         }
-        return a.getX() * b.getX() +
-                a.getY() * b.getY() +
-                a.getZ() * b.getZ() +
-                a.getW() * b.getW();
     }
 
     public static Tuple cross(Tuple a, Tuple b) {

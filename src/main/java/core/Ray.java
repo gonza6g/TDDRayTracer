@@ -1,6 +1,7 @@
 package core;
 
 import shape.Shape;
+import shape.Sphere;
 
 public class Ray {
     private Tuple origin;
@@ -25,7 +26,8 @@ public class Ray {
     public Intersections intersect(Shape s, Matrix transform) {
         // Transform the ray using the inverse of the shape's transformation matrix
         Matrix inverseTransform = transform.inverse();
-        Ray transformedRay = transform(inverseTransform);
+//        Ray transformedRay = transform(inverseTransform);
+        Ray transformedRay = this.transform(inverseTransform);
         Tuple sphereToRay = Tuple.subtract(transformedRay.getOrigin(), Tuple.point(0, 0, 0));
 
         double a = Tuple.dot(transformedRay.getDirection(), transformedRay.getDirection());

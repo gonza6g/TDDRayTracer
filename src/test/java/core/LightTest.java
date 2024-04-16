@@ -1,3 +1,5 @@
+package core;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import core.PointLight;

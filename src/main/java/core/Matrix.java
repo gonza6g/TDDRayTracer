@@ -1,5 +1,7 @@
 package core;
 
+import java.util.Arrays;
+
 public class Matrix {
     private double[][] data;
 
@@ -162,5 +164,12 @@ public class Matrix {
         }
 
         return new Matrix(inverseData);
+    }
+
+    @Override
+    public String toString() {
+        return "Matrix{" +
+                "data=" + Arrays.toString(data) +
+                '}';
     }
 }
