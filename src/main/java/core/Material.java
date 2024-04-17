@@ -95,7 +95,6 @@ public class Material {
         // between the light vector and the normal vector.
         // A negative number means
         // the light is on the other side of the surface.
-        System.out.println("before dot 1");
         double lightDotNormal = Tuple.dot(lightV, normalVector);
         if (lightDotNormal < 0) {
             diffuse = Color.BLACK;
@@ -108,7 +107,6 @@ public class Material {
             // reflection vector and the eye vector. A negative number means the
             // light reflects away from the eye.
             Tuple reflectVector = Tuple.reflect(Tuple.negate(lightV), normalVector);
-            System.out.println("before dot 2");
             double reflectDotEye = Tuple.dot(reflectVector, eyeVector);
             if (reflectDotEye <= 0) {
                 specular = Color.BLACK; // Light reflects away from the eye

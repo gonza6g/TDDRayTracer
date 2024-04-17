@@ -9,8 +9,8 @@ import utils.FileUtils;
 public class VioletSphereExample {
     public static void main(String[] args) {
         // Define constants and variables
-        int canvasWidth = 100;
-        int canvasHeight = 100;
+        int canvasWidth = 300;
+        int canvasHeight = 300;
         double wallSize = 7.0;
         double half = wallSize / 2.0;
         double pixelSize = wallSize / canvasWidth;
@@ -28,7 +28,7 @@ public class VioletSphereExample {
         s.setMaterial(m);
 
         // Set the lights
-        Tuple lightPosition = Tuple.vector(-10.0, 10.0, -10.0);
+        Tuple lightPosition = Tuple.vector(0.0, 0.0, -10.0);
         Color lightColor = Color.WHITE;
         PointLight light = new PointLight(lightPosition, lightColor);
 
@@ -57,8 +57,6 @@ public class VioletSphereExample {
                     // Find the CLOSEST intersection (assuming xs.hit() returns it)
                     Intersection hit = xs.hit();
                     Shape hitObject = xs.hit().getObject();
-                    System.out.println("hit at t: " + hit.getT()); // Debug print intersection distance
-
                     Tuple hitPoint = Ray.position(r, hit.getT());
 
                     // Find the normal vector at the hit point of the Sphere
