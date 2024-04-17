@@ -28,7 +28,7 @@ public class VioletSphereExample {
         s.setMaterial(m);
 
         // Set the lights
-        Tuple lightPosition = Tuple.vector(-10.0, -10.0, -10.0);
+        Tuple lightPosition = Tuple.vector(-10.0, 10.0, -10.0);
         Color lightColor = Color.WHITE;
         PointLight light = new PointLight(lightPosition, lightColor);
 
@@ -47,7 +47,7 @@ public class VioletSphereExample {
                 direction = Tuple.normalize(direction);
 
                 // Create the ray
-                Ray r = new Ray(lightPosition, direction);
+                Ray r = new Ray(rayOrigin, direction);
 
                 // Intersect the ray with the sphere
                 Intersections xs = r.intersect(s, s.getTransform());
@@ -72,8 +72,6 @@ public class VioletSphereExample {
 
                     // Write the color to the canvas
                     canvas.setPixelAt(x, y, color);
-                } else {
-                    System.out.println("No hit for this pixel"); // Debug print for missing hits
                 }
             }
         }
