@@ -1,5 +1,7 @@
 package core.geometry;
 
+import java.util.Objects;
+
 public class Tuple {
     private double x, y, z, w;
 
@@ -174,5 +176,18 @@ public class Tuple {
     @Override
     public String toString() {
         return "core.geometry.Tuple(" + x + ", " + y + ", " + z + ", " + w + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tuple tuple = (Tuple) o;
+        return Double.compare(getX(), tuple.getX()) == 0 && Double.compare(getY(), tuple.getY()) == 0 && Double.compare(getZ(), tuple.getZ()) == 0 && Double.compare(getW(), tuple.getW()) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getX(), getY(), getZ(), getW());
     }
 }

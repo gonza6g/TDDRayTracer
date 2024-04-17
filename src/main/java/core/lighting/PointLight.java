@@ -18,4 +18,19 @@ public class PointLight {
     public Color getIntensity() {
         return intensity;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        PointLight that = (PointLight) obj;
+        return position.equals(that.position) && intensity.equals(that.intensity);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = position.hashCode();
+        result = 31 * result + intensity.hashCode();
+        return result;
+    }
 }

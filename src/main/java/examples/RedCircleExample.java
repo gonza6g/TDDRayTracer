@@ -1,12 +1,14 @@
 package examples;
 
-import core.geometry.Intersections;
+import core.geometry.Intersection;
 import core.geometry.Ray;
 import core.geometry.Tuple;
 import draw.Canvas;
 import draw.Color;
 import shape.Sphere;
 import utils.FileUtils;
+
+import java.util.List;
 
 public class RedCircleExample {
     public static void main(String[] args) {
@@ -45,10 +47,10 @@ public class RedCircleExample {
                 Ray r = new Ray(rayOrigin, direction);
 
                 // Intersect the ray with the sphere
-                Intersections xs = r.intersect(shape, shape.getTransform());
-
+                List<Intersection> xs = r.intersect(shape, shape.getTransform());
+                Intersection closest = Intersection.hit(xs);
                 // Check if the ray hits the sphere
-                if (xs.hit() != null) {
+                if (closest != null) {
                     // Write a red pixel to the canvas
                     canvas.setPixelAt(x, y, Color.RED);
                 }

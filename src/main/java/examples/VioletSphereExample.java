@@ -8,6 +8,8 @@ import draw.Color;
 import shape.*;
 import utils.FileUtils;
 
+import java.util.List;
+
 public class VioletSphereExample {
     public static void main(String[] args) {
         // Define constants and variables
@@ -52,14 +54,14 @@ public class VioletSphereExample {
                 Ray r = new Ray(rayOrigin, direction);
 
                 // Intersect the ray with the sphere
-                Intersections xs = r.intersect(s, s.getTransform());
+                List<Intersection> xs = r.intersect(s, s.getTransform());
+                Intersection closest = Intersection.hit(xs);
 
                 // Check if the ray hits the sphere
-                if (xs.size() > 0) {
+                if (closest != null) {
                     // Find the CLOSEST intersection (assuming xs.hit() returns it)
-                    Intersection hit = xs.hit();
-                    Shape hitObject = xs.hit().getObject();
-                    Tuple hitPoint = Ray.position(r, hit.getT());
+                    Shape hitObject = closest.getObject();
+                    Tuple hitPoint = Ray.position(r, closest.getT());
 
                     // Find the normal vector at the hit point of the Sphere
                     Tuple normal = NormalCalculator.normalAt((Sphere) hitObject, hitPoint);

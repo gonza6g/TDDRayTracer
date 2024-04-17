@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import shape.Sphere;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class IntersectionTest {
@@ -24,18 +27,20 @@ public class IntersectionTest {
         Intersection i1 = new Intersection(1, sphere);
         Intersection i2 = new Intersection(2, sphere);
 
-        Intersections intersections = new Intersections(i1, i2);
+        List<Intersection> xs = new ArrayList<>();
+        xs.add(i1);
+        xs.add(i2);
 
-        assertEquals(2, intersections.size());
-        assertEquals(i1, intersections.get(0));
-        assertEquals(i2, intersections.get(1));
+        assertEquals(2, xs.size());
+        assertEquals(i1, xs.get(0));
+        assertEquals(i2, xs.get(1));
     }
 
     @Test
     void intersectSetsObject() {
         Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         Sphere s = new Sphere();
-        Intersections i = r.intersect(s, s.getTransform());
+        List<Intersection> i = r.intersect(s, s.getTransform());
 
         assertEquals(2, i.size());
         assertEquals(s, i.get(0).getObject());
@@ -47,11 +52,12 @@ public class IntersectionTest {
         Sphere s = new Sphere();
         Intersection i1 = new Intersection(1, s);
         Intersection i2 = new Intersection(2, s);
-        Intersections xs = new Intersections();
+        List<Intersection> xs = new ArrayList<>();
         xs.add(i2);
         xs.add(i1);
 
-        Assertions.assertEquals(i1, xs.hit());
+        Intersection closest = Intersection.hit(xs);
+        Assertions.assertEquals(i1, closest);
     }
 
     @Test
@@ -59,11 +65,12 @@ public class IntersectionTest {
         Sphere s = new Sphere();
         Intersection i1 = new Intersection(-1, s);
         Intersection i2 = new Intersection(1, s);
-        Intersections xs = new Intersections();
+        List<Intersection> xs = new ArrayList<>();
         xs.add(i2);
         xs.add(i1);
 
-        Assertions.assertEquals(i2, xs.hit());
+        Intersection closest = Intersection.hit(xs);
+        Assertions.assertEquals(i2, closest);
     }
 
     @Test
@@ -71,11 +78,12 @@ public class IntersectionTest {
         Sphere s = new Sphere();
         Intersection i1 = new Intersection(-2, s);
         Intersection i2 = new Intersection(-1, s);
-        Intersections xs = new Intersections();
+        List<Intersection> xs = new ArrayList<>();
         xs.add(i2);
         xs.add(i1);
 
-        Assertions.assertNull(xs.hit());
+        Intersection closest = Intersection.hit(xs);
+        Assertions.assertNull(closest);
     }
 
     @Test
@@ -85,13 +93,14 @@ public class IntersectionTest {
         Intersection i2 = new Intersection(7, s);
         Intersection i3 = new Intersection(-3, s);
         Intersection i4 = new Intersection(2, s);
-        Intersections xs = new Intersections();
+        List<Intersection> xs = new ArrayList<>();
         xs.add(i1);
         xs.add(i2);
         xs.add(i3);
         xs.add(i4);
 
-        assertEquals(i4, xs.hit());
+        Intersection closest = Intersection.hit(xs);
+        assertEquals(i4, closest);
     }
 
     @Test
@@ -99,7 +108,7 @@ public class IntersectionTest {
         Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         Sphere s = new Sphere();
         s.setTransform(MatrixTransform.scaling(2, 2, 2));
-        Intersections xs = r.intersect(s, s.getTransform());
+        List<Intersection> xs = r.intersect(s, s.getTransform());
         assertEquals(2, xs.size());
         assertEquals(3, xs.get(0).getT(), 0.00001);
         assertEquals(7, xs.get(1).getT(), 0.00001);
@@ -110,7 +119,7 @@ public class IntersectionTest {
         Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         Sphere s = new Sphere();
         s.setTransform(MatrixTransform.translation(5, 0, 0));
-        Intersections xs = r.intersect(s, s.getTransform());
+        List<Intersection> xs = r.intersect(s, s.getTransform());
         assertEquals(0, xs.size());
     }
 }

@@ -3,6 +3,8 @@ package shape;
 import core.material.Material;
 import core.geometry.Matrix;
 
+import java.util.Objects;
+
 public class Sphere implements Shape {
     private static int lastAssignedId = 0;
     private final int id;
@@ -35,4 +37,19 @@ public class Sphere implements Shape {
     public void setMaterial(Material material) {
         this.material = material;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        Sphere other = (Sphere) obj;
+        return this.getMaterial().equals(other.getMaterial()) &&
+                this.getTransform().equals(other.getTransform());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(material, transform);
+    }
+
 }

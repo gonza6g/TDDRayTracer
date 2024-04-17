@@ -4,6 +4,8 @@ import core.geometry.*;
 import core.material.Material;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -13,7 +15,7 @@ public class SphereTest {
         Ray r = new Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1));
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s, s.getTransform());
+        List<Intersection> xs = r.intersect(s, s.getTransform());
 
         assertEquals(2, xs.size());
         assertEquals(4.0, xs.get(0).getT(), 0.0001);
@@ -28,7 +30,7 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s, s.getTransform());
+        List<Intersection> xs = r.intersect(s, s.getTransform());
 
         assertEquals(2, xs.size());
         assertTrue(Double.compare(5.0, xs.get(0).getT()) == 0);
@@ -43,7 +45,7 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s, s.getTransform());
+        List<Intersection> xs = r.intersect(s, s.getTransform());
 
         assertEquals(0, xs.size());
     }
@@ -56,7 +58,7 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s, s.getTransform());
+        List<Intersection> xs = r.intersect(s, s.getTransform());
 
         assertEquals(2, xs.size());
         assertEquals(-1.0, xs.get(0).getT(), 0.00001);
@@ -71,7 +73,7 @@ public class SphereTest {
 
         Sphere s = new Sphere();
 
-        Intersections xs = r.intersect(s, s.getTransform());
+        List<Intersection> xs = r.intersect(s, s.getTransform());
 
         assertEquals(2, xs.size());
         assertEquals(-6.0, xs.get(0).getT(), 0.00001);

@@ -1,6 +1,10 @@
 package core.geometry;
 
 import shape.Shape;
+import core.geometry.Intersection;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Ray {
     private Tuple origin;
@@ -22,8 +26,9 @@ public class Ray {
         return Tuple.add(ray.getOrigin(), scaledDirection);
     }
 
-    public Intersections intersect(Shape s, Matrix transform) {
+    public List<Intersection> intersect(Shape s, Matrix transform) {
         // Transform the ray using the inverse of the shape's transformation matrix
+        List<Intersection> xs = new ArrayList<>();
         Matrix inverseTransform = transform.inverse();
         Ray transformedRay = this.transform(inverseTransform);
         Tuple sphereToRay = Tuple.subtract(transformedRay.getOrigin(), Tuple.point(0, 0, 0));
@@ -35,17 +40,16 @@ public class Ray {
         double discriminant = b * b - 4 * a * c;
 
         if (discriminant < 0) {
-            return new Intersections();
+            return xs;
         }
 
         double t1 = (-b - Math.sqrt(discriminant)) / (2 * a);
         double t2 = (-b + Math.sqrt(discriminant)) / (2 * a);
 
-        Intersections intersections = new Intersections();
-        intersections.add(new Intersection(t1, s));
-        intersections.add(new Intersection(t2, s));
+        xs.add(new Intersection(t1, s));
+        xs.add(new Intersection(t2, s));
 
-        return intersections;
+        return xs;
     }
 
     public Ray transform(Matrix matrix) {
