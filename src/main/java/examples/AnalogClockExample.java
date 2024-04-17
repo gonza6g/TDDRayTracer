@@ -1,8 +1,8 @@
 package examples;
 
-import core.Matrix;
-import core.MatrixTransform;
-import core.Tuple;
+import core.geometry.Matrix;
+import core.geometry.MatrixTransform;
+import core.geometry.Tuple;
 import draw.Canvas;
 import draw.Color;
 import utils.FileUtils;

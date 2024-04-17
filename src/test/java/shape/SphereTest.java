@@ -1,7 +1,7 @@
 package shape;
 
-import core.*;
-import org.junit.jupiter.api.Assertions;
+import core.geometry.*;
+import core.material.Material;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

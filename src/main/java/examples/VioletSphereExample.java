@@ -1,6 +1,8 @@
 package examples;
 
-import core.*;
+import core.geometry.*;
+import core.lighting.PointLight;
+import core.material.Material;
 import draw.Canvas;
 import draw.Color;
 import shape.*;
@@ -28,7 +30,7 @@ public class VioletSphereExample {
         s.setMaterial(m);
 
         // Set the lights
-        Tuple lightPosition = Tuple.vector(0.0, 0.0, -10.0);
+        Tuple lightPosition = Tuple.vector(-10.0, 15.0, 17.0);
         Color lightColor = Color.WHITE;
         PointLight light = new PointLight(lightPosition, lightColor);
 

@@ -1,8 +1,8 @@
 package examples;
 
-import core.Intersections;
-import core.Ray;
-import core.Tuple;
+import core.geometry.Intersections;
+import core.geometry.Ray;
+import core.geometry.Tuple;
 import draw.Canvas;
 import draw.Color;
 import shape.Sphere;

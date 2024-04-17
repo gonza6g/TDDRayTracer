@@ -1,8 +1,8 @@
 package examples;
 
-import core.Environment;
-import core.Projectile;
-import core.Tuple;
+import core.engine.Environment;
+import core.engine.Projectile;
+import core.geometry.Tuple;
 import draw.Canvas;
 import draw.Color;
 import utils.FileUtils;

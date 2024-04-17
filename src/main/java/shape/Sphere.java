@@ -1,9 +1,7 @@
 package shape;
 
-import core.Material;
-import core.Matrix;
-import core.MatrixTransform;
-import core.Tuple;
+import core.material.Material;
+import core.geometry.Matrix;
 
 public class Sphere implements Shape {
     private static int lastAssignedId = 0;
