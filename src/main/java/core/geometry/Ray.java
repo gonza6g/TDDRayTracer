@@ -1,7 +1,10 @@
 package core.geometry;
 
+import core.lighting.PointLight;
+import core.material.Material;
+import scene.World;
 import shape.Shape;
-import core.geometry.Intersection;
+import draw.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,9 +24,9 @@ public class Ray {
         return direction;
     }
 
-    public static Tuple position(Ray ray, double t) {
-        Tuple scaledDirection = Tuple.multiply(ray.getDirection(), t);
-        return Tuple.add(ray.getOrigin(), scaledDirection);
+    public Tuple getPosition(double t) {
+        Tuple scaledDirection = Tuple.multiply(getDirection(), t);
+        return Tuple.add(getOrigin(), scaledDirection);
     }
 
     public List<Intersection> intersect(Shape s, Matrix transform) {
@@ -33,9 +36,9 @@ public class Ray {
         Ray transformedRay = this.transform(inverseTransform);
         Tuple sphereToRay = Tuple.subtract(transformedRay.getOrigin(), Tuple.point(0, 0, 0));
 
-        double a = Tuple.dot(transformedRay.getDirection(), transformedRay.getDirection());
-        double b = 2 * Tuple.dot(transformedRay.getDirection(), sphereToRay);
-        double c = Tuple.dot(sphereToRay, sphereToRay) - 1;
+        double a = transformedRay.getDirection().dot(transformedRay.getDirection());
+        double b = 2 * transformedRay.getDirection().dot(sphereToRay);
+        double c = sphereToRay.dot(sphereToRay) - 1;
 
         double discriminant = b * b - 4 * a * c;
 
@@ -57,5 +60,4 @@ public class Ray {
         Tuple newDirection = matrix.multiply(direction);
         return new Ray(newOrigin, newDirection);
     }
-
 }

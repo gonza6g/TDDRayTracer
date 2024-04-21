@@ -140,7 +140,7 @@ public class TupleTest {
     @Test
     public void negatingPoint() {
         Tuple a = new Tuple(1, -2, 3, 1);
-        Tuple negatedA = Tuple.negate(a);
+        Tuple negatedA = a.negate();
         assertEquals(-1.0, negatedA.getX(), 0.00001);
         assertEquals(2.0, negatedA.getY(), 0.00001);
         assertEquals(-3.0, negatedA.getZ(), 0.00001);
@@ -150,7 +150,7 @@ public class TupleTest {
     @Test
     public void negatingVector() {
         Tuple a = new Tuple(1, -2, 3, 0);
-        Tuple negatedA = Tuple.negate(a);
+        Tuple negatedA = a.negate();
         assertEquals(-1.0, negatedA.getX(), 0.00001);
         assertEquals(2.0, negatedA.getY(), 0.00001);
         assertEquals(-3.0, negatedA.getZ(), 0.00001);
@@ -251,7 +251,7 @@ public class TupleTest {
     public void dotProductOfTwoTuples() {
         Tuple a = Tuple.vector(1, 2, 3);
         Tuple b = Tuple.vector(2, 3, 4);
-        double dotProduct = Tuple.dot(a, b);
+        double dotProduct = a.dot(b);
         assertEquals(20.0, dotProduct, 0.00001);
     }
 
@@ -259,7 +259,7 @@ public class TupleTest {
     public void dotProductThrowsExceptionForPoints() {
         Tuple a = Tuple.vector(1, 2, 3);
         Tuple b = Tuple.point(2, 3, 4);
-        assertThrows(IllegalArgumentException.class, () -> Tuple.dot(a, b));
+        assertThrows(IllegalArgumentException.class, () -> a.dot(b));
     }
 
     @Test

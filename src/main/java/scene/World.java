@@ -42,7 +42,7 @@ public class World {
 
         for (Shape object : world.objects) {
             Sphere s = (Sphere) object;
-            intersections = ray.intersect(object, s.getTransform());
+            intersections.addAll(ray.intersect(object, s.getTransform()));
         }
 
         intersections.sort(Comparator.comparing(Intersection::getT));

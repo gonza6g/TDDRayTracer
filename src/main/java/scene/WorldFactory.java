@@ -10,7 +10,7 @@ public class WorldFactory {
     public static World defaultWorld() {
         World world = new World();
 
-        PointLight light = new PointLight(Tuple.point(-10, 10, -10), new Color(1, 1, 1));
+        PointLight light = new PointLight(Tuple.point(-10, 10, -10), Color.WHITE);
         world.setLight(light);
 
         Sphere s1 = sphere();

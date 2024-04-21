@@ -35,10 +35,10 @@ public class RayTest {
     public void testComputingAPointFromADistance() {
         Ray r = new Ray(Tuple.point(2, 3, 4), Tuple.vector(1, 0, 0));
 
-        assertPositionEquals(Tuple.point(2, 3, 4), Ray.position(r, 0));
-        assertPositionEquals(Tuple.point(3, 3, 4), Ray.position(r, 1));
-        assertPositionEquals(Tuple.point(1, 3, 4), Ray.position(r, -1));
-        assertPositionEquals(Tuple.point(4.5, 3, 4), Ray.position(r, 2.5));
+        assertPositionEquals(Tuple.point(2, 3, 4), r.getPosition(0));
+        assertPositionEquals(Tuple.point(3, 3, 4), r.getPosition(1));
+        assertPositionEquals(Tuple.point(1, 3, 4), r.getPosition(-1));
+        assertPositionEquals(Tuple.point(4.5, 3, 4), r.getPosition(2.5));
     }
 
     @Test

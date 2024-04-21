@@ -1,5 +1,17 @@
 package draw;
 
+import core.geometry.Computations;
+import core.geometry.Intersection;
+import core.lighting.PointLight;
+import core.material.Material;
+import scene.World;
+import core.geometry.Ray;
+
+import java.util.List;
+
+import static core.geometry.Computations.prepareComputations;
+import static scene.World.intersectWorld;
+
 public class Color {
     double red;
     double green;
@@ -9,6 +21,31 @@ public class Color {
         this.red = red;
         this.green = green;
         this.blue = blue;
+    }
+
+    public Color shadeHit(World world, Computations comps) {
+        Material m = comps.getObject().getMaterial();
+
+        Color finalColor = new Color(0, 0, 0);
+
+        for (PointLight light : world.getLights()) {
+            finalColor = m.lighting(light, comps.getPoint(), comps.getEyeVector(), comps.getNormalVector());
+        }
+        return finalColor;
+    }
+
+    public Color colorAt(World world, Ray ray) {
+        List<Intersection> intersections = intersectWorld(world, ray);
+
+        Intersection hit = Intersection.hit(intersections);
+
+        if (hit == null) {
+            return Color.BLACK;
+        }
+
+        Computations comps = prepareComputations(hit, ray);
+
+        return shadeHit(world, comps);
     }
 
     public double getRed() {

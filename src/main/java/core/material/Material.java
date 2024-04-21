@@ -1,8 +1,10 @@
 package core.material;
 
+import core.geometry.Computations;
 import core.geometry.Tuple;
 import core.lighting.PointLight;
 import draw.Color;
+import scene.World;
 
 import java.util.Objects;
 
@@ -97,7 +99,7 @@ public class Material {
         // between the light vector and the normal vector.
         // A negative number means
         // the light is on the other side of the surface.
-        double lightDotNormal = Tuple.dot(lightV, normalVector);
+        double lightDotNormal = lightV.dot(normalVector);
         if (lightDotNormal < 0) {
             diffuse = Color.BLACK;
             specular = Color.BLACK;
@@ -108,8 +110,8 @@ public class Material {
             // reflect_dot_eye represents the cosine of the angle between the
             // reflection vector and the eye vector. A negative number means the
             // light reflects away from the eye.
-            Tuple reflectVector = Tuple.reflect(Tuple.negate(lightV), normalVector);
-            double reflectDotEye = Tuple.dot(reflectVector, eyeVector);
+            Tuple reflectVector = Tuple.reflect(lightV.negate(), normalVector);
+            double reflectDotEye = reflectVector.dot(eyeVector);
             if (reflectDotEye <= 0) {
                 specular = Color.BLACK; // Light reflects away from the eye
             } else {
@@ -118,9 +120,6 @@ public class Material {
                 specular = light.getIntensity().scale(this.specular).scale(factor);
             }
         }
-//        System.out.println("ambient = " + ambient);
-//        System.out.println("diffuse = " + diffuse);
-//        System.out.println("specular = " + specular);
         return ambient.add(diffuse).add(clamp(specular));
     }
 
@@ -133,5 +132,16 @@ public class Material {
         double blue = Math.min(Math.max(color.getBlue(), min), max);
 
         return new Color(red, blue, green);
+    }
+
+    @Override
+    public String toString() {
+        return "Material{" +
+                "color=" + color +
+                ", ambient=" + ambient +
+                ", diffuse=" + diffuse +
+                ", specular=" + specular +
+                ", shininess=" + shininess +
+                '}';
     }
 }

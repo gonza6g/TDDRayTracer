@@ -19,7 +19,7 @@ public class Tuple {
             double y = Math.abs(in.y) < 1e-9 ? 0.0 : in.y;
             double z = Math.abs(in.z) < 1e-9 ? 0.0 : in.z;
             Tuple inVector = new Tuple(x, y, z, 0.0);
-            double dotProduct = Tuple.dot(inVector, normal) * 2;
+            double dotProduct = inVector.dot(normal) * 2;
             Tuple reflection = Tuple.subtract(inVector, Tuple.multiply(normal, dotProduct));
             // Round the components to a certain number of decimal places
             x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
@@ -28,7 +28,7 @@ public class Tuple {
             return new Tuple(x, y, z, 0.0); // Assuming the w component is always 0
         } else if (in.isPoint() && normal.isVector()) {
             Tuple inVector = Tuple.vector(in.x, in.y, in.z);
-            double dotProduct = Tuple.dot(inVector, normal) * 2;
+            double dotProduct = inVector.dot(normal) * 2;
             Tuple reflection = Tuple.subtract(inVector, Tuple.multiply(normal, dotProduct));
             // Round the components to a certain number of decimal places
             double x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
@@ -37,7 +37,7 @@ public class Tuple {
             return new Tuple(x, y, z, 0.0); // Assuming the w component is always 0
         } else if (in.w == 0.0 || in.w == 1.0) {
             // The in tuple has a valid w component (0 for vector, 1 for point)
-            double dotProduct = Tuple.dot(in, normal) * 2;
+            double dotProduct = in.dot(normal) * 2;
             Tuple reflection = Tuple.subtract(in, Tuple.multiply(normal, dotProduct));
             // Round the components to a certain number of decimal places
             double x = Math.round(reflection.getX() * 1000000.0) / 1000000.0;
@@ -117,14 +117,14 @@ public class Tuple {
         }
     }
 
-    public static Tuple negate(Tuple t) {
-        if (t.isVector()) {
-            double x = t.x != 0.0 ? -t.x : 0.0;
-            double y = t.y != 0.0 ? -t.y : 0.0;
-            double z = t.z != 0.0 ? -t.z : 0.0;
+    public Tuple negate() {
+        if (this.isVector()) {
+            double x = this.x != 0.0 ? -this.x : 0.0;
+            double y = this.y != 0.0 ? -this.y : 0.0;
+            double z = this.z != 0.0 ? -this.z : 0.0;
             return new Tuple(x, y, z, 0.0);
         } else {
-            return new Tuple(-t.x, -t.y, -t.z, 1.0);
+            return new Tuple(-this.x, -this.y, -this.z, 1.0);
         }
     }
 
@@ -149,13 +149,13 @@ public class Tuple {
         return Math.sqrt(t.getX() * t.getX() + t.getY() * t.getY() + t.getZ() * t.getZ() + t.getW() * t.getW());
     }
 
-    public static double dot(Tuple t1, Tuple t2) {
-        if (t1.isVector() && t2.isVector()) {
-            return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z;
-        } else if (t1.isPoint() && t2.isVector()) {
-            return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z;
-        } else if (t1.isVector() && t2.isPoint()) {
-            return t1.x * t2.x + t1.y * t2.y + t1.z * t2.z;
+    public double dot(Tuple other) {
+        if (other.isVector() && this.isVector()) {
+            return other.x * this.x + other.y * this.y + other.z * this.z;
+        } else if (other.isPoint() && this.isVector()) {
+            return other.x * this.x + other.y * this.y + other.z * this.z;
+        } else if (other.isVector() && this.isPoint()) {
+            return other.x * this.x + other.y * this.y + other.z * this.z;
         } else {
             throw new IllegalArgumentException("Dot product is only defined for vectors.");
         }

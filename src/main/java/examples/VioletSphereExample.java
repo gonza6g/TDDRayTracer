@@ -61,13 +61,13 @@ public class VioletSphereExample {
                 if (closest != null) {
                     // Find the CLOSEST intersection (assuming xs.hit() returns it)
                     Shape hitObject = closest.getObject();
-                    Tuple hitPoint = Ray.position(r, closest.getT());
+                    Tuple hitPoint = r.getPosition(closest.getT());
 
                     // Find the normal vector at the hit point of the Sphere
                     Tuple normal = NormalCalculator.normalAt((Sphere) hitObject, hitPoint);
 
                     // Calculate the eye vector
-                    Tuple eye = Tuple.negate(direction);
+                    Tuple eye = direction.negate();
 
                     // Calculate the color with the lighting function
                     Color color = m.lighting(light, hitPoint, eye, normal);

@@ -168,8 +168,22 @@ public class Matrix {
 
     @Override
     public String toString() {
-        return "Matrix{" +
-                "data=" + Arrays.toString(data) +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Matrix{");
+        for (int i = 0; i < data.length; i++) {
+            sb.append("[");
+            for (int j = 0; j < data[i].length; j++) {
+                sb.append(data[i][j]);
+                if (j < data[i].length - 1) {
+                    sb.append(", ");
+                }
+            }
+            sb.append("]");
+            if (i < data.length - 1) {
+                sb.append(", ");
+            }
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

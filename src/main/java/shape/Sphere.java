@@ -52,4 +52,12 @@ public class Sphere implements Shape {
         return Objects.hash(material, transform);
     }
 
+    @Override
+    public String toString() {
+        return "Sphere{" +
+                "id=" + id +
+                ", transform=" + transform +
+                ", material=" + material +
+                '}';
+    }
 }
